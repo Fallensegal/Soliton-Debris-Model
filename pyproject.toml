@@ -1,0 +1,31 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "isr-debris-simulator"
+version = "0.0.1"
+authors = [
+	{name = "Wasif Islam", email = "islamwasif3@gmail.com"},
+	{name = "Adrienne Rudolph", email = "rudolpa@gmail.com"},
+]
+
+description = "Experimental space debris simulator"
+requires-python = ">=3.12"
+
+[project.scripts]
+isr-debris-sim = "isr_debris_sim.__main__:sim"
+
+[tool.setuptools]
+packages = {"isr_debris_sim"}
+package_dir = {"": "."}
+exclude_package_data = {"": ["matlab_source/*"]}
+
+[tool.mypy]
+warn_return_any = true
+strict = true
+
+[tool.ruff]
+select = ["ALL"]
+line-length = 93
+ignore = ["D203", "D212", "D401", "COM812", "ISC001", "D100", "D103", "D104", "D101", "S101"]
