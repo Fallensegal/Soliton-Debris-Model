@@ -10,6 +10,8 @@ ObjTyp = 'PAYLOAD';
 %read the xlm (xlsx) file. This needs to be saved as an xlsx prior to
 %running because sorting real xml files in matlab is convoluted compared to
 %saving it as an xlsx file prior to running.
+
+% NOTE FROM WASIF, THIS HAS NOTHING TO DO WITH RADARS
 xmlFile = read_radar_track_xml(path_debris);
 
 %sort the file to remove any targets with RCS of large, medium, or unkown

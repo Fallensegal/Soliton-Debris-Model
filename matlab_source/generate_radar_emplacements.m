@@ -13,6 +13,15 @@ fprintf('Emplacing Radars...\n')
 
 %read radar information
 [~,~,radar_data_array] = xlsread(path);
+%%
+% SOOOO THIS GUY IS HARDCODING WHAT RADAR TO USE
+% DUDE IS READING IN AN EXCEL FILE @ Connor_Research/ThesisSoftwareWilson/Data/Radar_Selection_Trade_Study.xlsx
+%%
+
+% LINE 21 legits reads in a single radar that is high frequency
+% BRO THIS IS NOT EVEN AN ISR RADAR, ITS A IONOSPHERIC HEATER HEATER LIKE HAARP
+% https://www.eiscat.uit.no/html/heater.html
+% LET ME KNOW IF YOU ARE AWARE OF THIS
 radars = column_sort(radar_data_array,'Frequency Band','HF',0);
 
 %extract altitude, latitude, and longitude
