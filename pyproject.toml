@@ -13,6 +13,10 @@ authors = [
 description = "Experimental space debris simulator"
 requires-python = ">=3.12"
 
+dependencies = [
+	"iri2016",
+]
+
 [project.scripts]
 isr-debris-sim = "isr_debris_sim.__main__:sim"
 

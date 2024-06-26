@@ -1,0 +1,8 @@
+-e .
+
+mypy
+ruff
+setuptools
+wheel
+pytest
+twine
