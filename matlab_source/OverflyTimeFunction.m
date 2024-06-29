@@ -1,0 +1,70 @@
+% Connor Wilson - August 2023
+function [tf,Ashape] = OverflyTimeFunction(TargetPositionTime,radar_ecef,radarChar)
+%this function will create the beam projection of the radar and allign the
+%target with the beam in time and space
+
+%set the radar experiment characteristics here
+azm = radarChar.azm; %azmith (0 = north, 90 = east)
+elm = radarChar.elm; %elavation ( 90 = vertical, 0 = horizontal)
+MaxRadarAlt = radarChar.MaxAlt;   %maximum altitude of the radar beam (km)
+Position = TargetPositionTime(:,1:3)/1000;  %target position (km)
+Time = TargetPositionTime(:,7);             %target time (s)
+
+%%%% - CONFLICT MAYBE - HEATER
+SourceECEF = radar_ecef;                    %radar position (km)
+%%%%
+
+beamAngle = radarChar.beamAngle;            %beam width angle (degree)
+beamWidth = MaxRadarAlt*tand(beamAngle/2);  %beam width (km)
+
+%%%%% - CONFLICT MAYBE
+[llaOut] = ecef2lla(SourceECEF*1000);       %lat lon alt of radar
+%%%%%
+
+wgs84 = wgs84Ellipsoid;                     %ellipsoidal earth model
+%azimuth, elevation, range to earth centered earth fixed transformation
+
+%%% XYZ Coordinates of ISR SVAL
+[Xecef,Yecef,Zecef] = aer2ecef(azm,elm,MaxRadarAlt*1000,llaOut(1),llaOut(2),llaOut(3),wgs84);
+SrcECEF = [Xecef' Yecef' Zecef']/1000;  %convert to km from m
+
+SrcUnitVect = (SrcECEF'-SourceECEF')/norm((SrcECEF-SourceECEF));    %unit vector
+
+%next we will create a projection of the beam
+%create range of x, y, z variables in circle
+b = linspace(0,2*pi);
+x = cos(b);
+y = sin(b);
+z = 0*b;
+pnts = [x;y;z];
+% unit normal for original plane
+n0 = [0;0;1]; 
+n0 = n0/norm(n0);
+
+% unit normal for plane to rotate into 
+% plane is orthogonal to n1... given by equation
+n1 = SrcUnitVect;
+
+% theta is the angle between normals
+c = dot(n0,n1) / ( norm(n0)*norm(n1) ); % cos(theta)
+s = sqrt(1-c*c);                        % sin(theta)
+u = cross(n0,n1) / ( norm(n0)*norm(n1) ); % rotation axis...
+u = u/norm(u); % ... as unit vector
+C = 1-c;
+% the rotation matrix
+R = [u(1)^2*C+c, u(1)*u(2)*C-u(3)*s, u(1)*u(3)*C+u(2)*s
+    u(2)*u(1)*C+u(3)*s, u(2)^2*C+c, u(2)*u(3)*C-u(1)*s
+    u(3)*u(1)*C-u(2)*s, u(3)*u(2)*C+u(1)*s, u(3)^2*C+c];
+
+
+newPnts = R*pnts*beamWidth; %transform a large circle into the radar coordinate space
+SourceECEFmax = SourceECEF + (R*[0; 0; MaxRadarAlt])' + newPnts'; %project the circle at the top of the radar range
+VolECEFpnts = [SourceECEF;SourceECEFmax]; %add a point at the radar origin
+Ashape = alphaShape(VolECEFpnts(1:end-1,:),inf); %use this cone to create a alpha shape/ convex hull
+
+
+%test if the target is in the convex hull at every point of the trajectory
+for i = 1:length(Time)
+tf(i) = inShape(Ashape,Position(i,1:3));
+end
+end
