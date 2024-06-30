@@ -13,21 +13,11 @@ Time = TargetPositionTime(:,7);             %target time (s)
 %%%% - CONFLICT MAYBE - HEATER --> nope, he's using the Svalbard radar, i
 %%%% followed the crumb trail
 SourceECEF = radar_ecef;                    %radar position (km)
-% in the main script he is manually choosing Svalbard, and so the particular radar_ecef
-% that gets isolated and chosen for this script contains the ECEF
-% coordinates for svalbard. 
-% 
-% *radar_ecef is originally a matrix or array
-% (whatever - it looks like a matrix to me) where each row is a radar entry,
-% and the columns are the coordinates, so when he chooses Svalbard, that row
-% gets selected out of radar_ecef and gets used here. 
-% 
-% SourceECEF are the physical coordinates of the radar, which comes from the trade study. Down
-% below where he does aer2ecef, he's taking the radar's dish parameters
-% (azimuth, elevation, and range) and also turning those into ECEF
-% coordinates. Then he's drawing a line (a unit vector) between the physical
-% sitting location of the beam on the ground and the orientation of the
-% dish/transmitter.
+%in the main script he is manually choosing Svalbard, and so the particular radar_ecef
+%that gets isolated and chosen for this script contains the ECEF
+%coordinates for svalbard. *radar_ecef is originally a matrix or array
+%(whatever - it looks like a matrix to me) where each row is a radar entry,
+%and 
 %%%%
 
 beamAngle = radarChar.beamAngle;            %beam width angle (degree)
