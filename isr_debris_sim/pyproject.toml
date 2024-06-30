@@ -20,11 +20,6 @@ dependencies = [
 [project.scripts]
 isr-debris-sim = "isr_debris_sim.__main__:sim"
 
-[tool.setuptools]
-packages = {"isr_debris_sim"}
-package_dir = {"": "."}
-exclude_package_data = {"": ["matlab_source/*"]}
-
 [tool.mypy]
 warn_return_any = true
 strict = true
