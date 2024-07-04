@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
-isr-debris-sim = "isr_debris_sim.__main__:sim"
+isr-debris-sim = "isr_debris_sim.__main__:main"
 
 [tool.mypy]
 warn_return_any = true

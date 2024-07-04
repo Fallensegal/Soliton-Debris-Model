@@ -32,7 +32,7 @@ install: install-env install-dev	## Install environment and dev dependencies
 
 .PHONY: check
 check:		## Run mypy type checker
-	$(BIN)/mypy ./src
+	$(BIN)/mypy ./isr_debris_sim/
 
 .PHONY: clean
 clean:		## Clean repo of build artifacts
