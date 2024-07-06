@@ -3,7 +3,7 @@ from isr_debris_sim.features.spacetrack.service import TestSpaceTrack
 
 
 def test_function() -> None:
-    testOne = TestMadrigal(test="build")
-    testTwo = TestSpaceTrack(test="test")
+    test_one = TestMadrigal(test="build")
+    test_two = TestSpaceTrack(test="test")
 
-    print(f"{testOne.test}, {testTwo.test}")
+    print(f"{test_one.test}, {test_two.test}")
