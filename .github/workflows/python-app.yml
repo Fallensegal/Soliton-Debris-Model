@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        if [ -f ./isr_debris_sim/requirements.txt ]; then pip install -r ./isr_debris_sim/requirements.txt; fi
+        pip install -e ./isr_debris_sim
     - name: Run MyPy Type Checker
       run: |
         mypy --config-file=./isr_debris_sim/pyproject.toml ./isr_debris_sim/
