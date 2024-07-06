@@ -20,6 +20,12 @@ dependencies = [
 [project.scripts]
 isr-debris-sim = "isr_debris_sim.__main__:main"
 
+[tool.pytest.ini_options]
+markers = [
+    "unit: mark test as unit",
+    "serial",
+]
+
 [tool.mypy]
 warn_return_any = true
 strict = true
