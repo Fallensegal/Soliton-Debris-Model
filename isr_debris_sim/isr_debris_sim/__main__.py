@@ -1,10 +1,10 @@
-from isr_debris_sim.core.config import test_function
+import click
 
+@click.group()
+def app() -> None:
+    pass
 
-def main() -> None:
-    print("Hello World!")
-    test_function()
-
+app.add_command(init)
 
 if __name__ == "__main__":
-    main()
+    app()
